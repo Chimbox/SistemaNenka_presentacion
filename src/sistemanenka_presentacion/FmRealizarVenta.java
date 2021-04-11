@@ -1,12 +1,22 @@
 
 package sistemanenka_presentacion;
 
+import control.FabricaNegocios;
+import control.INegocios;
+import control.FNegocios;
+import dominio.Producto;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author dianacastro
  */
 public class FmRealizarVenta extends javax.swing.JFrame {
 
+    DefaultTableModel modeloTabla;
+    List<Producto> productos;
+    
     /**
      * Creates new form FmRealizarVenta
      */
@@ -14,6 +24,11 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Dulcería La Abue | Realizar Venta");
         this.setLocationRelativeTo(null);
+        
+        modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
+        
+        cargarTabla();
+        
     }
 
     /**
@@ -33,7 +48,7 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         lblBuscar = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblDetalleVenta = new javax.swing.JTable();
+        tbDetalleVenta = new javax.swing.JTable();
         lblTotal = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         lblRecibido = new javax.swing.JLabel();
@@ -88,21 +103,31 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 290, 30));
 
-        tblDetalleVenta.setBackground(new java.awt.Color(255, 255, 255));
-        tblDetalleVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
-        tblDetalleVenta.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        tblDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
+        tbDetalleVenta.setBackground(new java.awt.Color(255, 255, 255));
+        tbDetalleVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
+        tbDetalleVenta.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        tbDetalleVenta.setForeground(new java.awt.Color(0, 0, 0));
+        tbDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "CODIGO", "PRODUCTO", "PRECIO", "CANTIDAD", "IMPORTE"
             }
-        ));
-        jScrollPane1.setViewportView(tblDetalleVenta);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbDetalleVenta.setDoubleBuffered(true);
+        jScrollPane1.setViewportView(tbDetalleVenta);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 840, 260));
 
@@ -162,6 +187,11 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         btnProductos.setMinimumSize(new java.awt.Dimension(95, 100));
         btnProductos.setPreferredSize(new java.awt.Dimension(95, 100));
         btnProductos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductosActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         btnVentas.setBackground(new java.awt.Color(47, 118, 176));
@@ -246,6 +276,32 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+        
+    }//GEN-LAST:event_btnProductosActionPerformed
+
+    public void cargarTabla(){
+        FNegocios negocios;
+        productos = negocios.obtenerProductos();
+        
+        
+        
+        modeloTabla.setRowCount(0);
+        for (Producto producto: productos) {
+            
+            float importe = (producto.getPrecio() * producto.getStock());
+            
+            Object[] fila = new Object[5];
+            fila[0] = producto.getId();
+            fila[1] = producto.getNombre();
+            fila[2] = producto.getPrecio();
+            fila[3] = producto.getStock();
+            fila[4] = importe;
+            modeloTabla.addRow(fila);
+        }
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -303,7 +359,7 @@ public class FmRealizarVenta extends javax.swing.JFrame {
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblRecibido;
     private javax.swing.JLabel lblTotal;
-    private javax.swing.JTable tblDetalleVenta;
+    private javax.swing.JTable tbDetalleVenta;
     private javax.swing.JTextField txtAtiende;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCambio;

@@ -11,23 +11,18 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author dianacastro
  */
-public class FmRealizarVenta extends javax.swing.JFrame {
+public class FmRealizarVenta extends FmBase {
 
     DefaultTableModel modeloTabla;
     List<Producto> productos;
+    INegocios negocios;
     
     /**
      * Creates new form FmRealizarVenta
      */
     public FmRealizarVenta() {
         initComponents();
-        this.setTitle("Dulcería La Abue | Realizar Venta");
-        this.setLocationRelativeTo(null);
-        
-        modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
-        
-        cargarTabla();
-        
+        inicializar();
     }
 
     /**
@@ -264,7 +259,7 @@ public class FmRealizarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     public void cargarTabla(){
-        INegocios negocios=FabricaNegocios.getFachada();
+       
         productos = negocios.obtenerProductos();
         
         
@@ -272,7 +267,7 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         modeloTabla.setRowCount(0);
         for (Producto producto: productos) {
             
-            float importe = (producto.getPrecio() * producto.getStock());
+            double importe = (producto.getPrecio() * producto.getStock());
             
             Object[] fila = new Object[5];
             fila[0] = producto.getId();
@@ -313,4 +308,13 @@ public class FmRealizarVenta extends javax.swing.JFrame {
     private javax.swing.JTextField txtRecibido;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
+
+    private void inicializar() {
+        this.setTitle("Dulcería La Abue | Realizar Venta");
+        this.setLocationRelativeTo(null);
+        modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
+        negocios=getFachadaNegocios();
+        cargarTabla();
+        
+    }
 }

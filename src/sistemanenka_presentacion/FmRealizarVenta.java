@@ -3,7 +3,6 @@ package sistemanenka_presentacion;
 
 import control.FabricaNegocios;
 import control.INegocios;
-import control.FNegocios;
 import dominio.Producto;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -78,20 +77,16 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblAtiende.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        lblAtiende.setForeground(new java.awt.Color(0, 0, 0));
         lblAtiende.setText("Atiende:");
         jPanel1.add(lblAtiende, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 25, -1, -1));
 
         lblCliente.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        lblCliente.setForeground(new java.awt.Color(0, 0, 0));
         lblCliente.setText("Cliente:");
         jPanel1.add(lblCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 67, -1, 20));
 
-        txtAtiende.setBackground(new java.awt.Color(255, 255, 255));
         txtAtiende.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtAtiende, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 240, 30));
 
-        cbCliente.setBackground(new java.awt.Color(255, 255, 255));
         cbCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbCliente.setBorder(null);
         jPanel1.add(cbCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 240, 30));
@@ -99,14 +94,11 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         lblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
         jPanel1.add(lblBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 40, 30, 30));
 
-        txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
         txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 290, 30));
 
-        tbDetalleVenta.setBackground(new java.awt.Color(255, 255, 255));
         tbDetalleVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         tbDetalleVenta.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        tbDetalleVenta.setForeground(new java.awt.Color(0, 0, 0));
         tbDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -132,42 +124,34 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 840, 260));
 
         lblTotal.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        lblTotal.setForeground(new java.awt.Color(0, 0, 0));
         lblTotal.setText("Total $:");
         jPanel1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, -1, 30));
 
-        txtTotal.setBackground(new java.awt.Color(255, 255, 255));
         txtTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 444, 140, 40));
 
         lblRecibido.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        lblRecibido.setForeground(new java.awt.Color(0, 0, 0));
         lblRecibido.setText("Recibido:");
         jPanel1.add(lblRecibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 410, -1, 30));
 
         lblCambio.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
-        lblCambio.setForeground(new java.awt.Color(0, 0, 0));
         lblCambio.setText("Cambio:");
         jPanel1.add(lblCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, -1, 30));
 
-        txtRecibido.setBackground(new java.awt.Color(255, 255, 255));
         txtRecibido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtRecibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 410, 140, 30));
 
-        txtCambio.setBackground(new java.awt.Color(255, 255, 255));
         txtCambio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 460, 140, 30));
 
         btnCancelar.setBackground(new java.awt.Color(243, 69, 51));
         btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("CANCELAR");
         btnCancelar.setBorder(null);
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 130, 30));
 
         btnAceptar.setBackground(new java.awt.Color(118, 194, 124));
         btnAceptar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        btnAceptar.setForeground(new java.awt.Color(0, 0, 0));
         btnAceptar.setText("ACEPTAR");
         btnAceptar.setBorder(null);
         btnAceptar.setBorderPainted(false);
@@ -263,7 +247,6 @@ public class FmRealizarVenta extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("SISTEMA NENKA");
         jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 120, 60));
 
@@ -281,7 +264,7 @@ public class FmRealizarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     public void cargarTabla(){
-        FNegocios negocios;
+        INegocios negocios=FabricaNegocios.getFachada();
         productos = negocios.obtenerProductos();
         
         
@@ -299,42 +282,6 @@ public class FmRealizarVenta extends javax.swing.JFrame {
             fila[4] = importe;
             modeloTabla.addRow(fila);
         }
-    }
-    
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmRealizarVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmRealizarVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmRealizarVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmRealizarVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmRealizarVenta().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

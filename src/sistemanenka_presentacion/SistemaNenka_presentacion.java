@@ -11,7 +11,8 @@ public class SistemaNenka_presentacion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        FmRealizarVenta fm=new FmRealizarVenta();
+        fm.setVisible(true);
     }
     
 }

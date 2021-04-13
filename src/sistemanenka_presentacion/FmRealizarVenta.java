@@ -1,10 +1,13 @@
-
 package sistemanenka_presentacion;
 
+import com.sun.glass.events.KeyEvent;
 import control.FabricaNegocios;
 import control.INegocios;
+import dominio.DetalleVenta;
 import dominio.Producto;
 import java.util.List;
+import javafx.scene.input.KeyCode;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,9 +17,8 @@ import javax.swing.table.DefaultTableModel;
 public class FmRealizarVenta extends FmBase {
 
     DefaultTableModel modeloTabla;
-    List<Producto> productos;
     INegocios negocios;
-    
+
     /**
      * Creates new form FmRealizarVenta
      */
@@ -114,6 +116,11 @@ public class FmRealizarVenta extends FmBase {
             }
         });
         tbDetalleVenta.setDoubleBuffered(true);
+        tbDetalleVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbDetalleVentaKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbDetalleVenta);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 840, 260));
@@ -123,6 +130,8 @@ public class FmRealizarVenta extends FmBase {
         jPanel1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, -1, 30));
 
         txtTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
+        txtTotal.setDisabledTextColor(new java.awt.Color(255, 51, 51));
+        txtTotal.setEnabled(false);
         jPanel1.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 444, 140, 40));
 
         lblRecibido.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
@@ -134,15 +143,27 @@ public class FmRealizarVenta extends FmBase {
         jPanel1.add(lblCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, -1, 30));
 
         txtRecibido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
+        txtRecibido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtRecibidoKeyReleased(evt);
+            }
+        });
         jPanel1.add(txtRecibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 410, 140, 30));
 
         txtCambio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
+        txtCambio.setDisabledTextColor(new java.awt.Color(255, 51, 51));
+        txtCambio.setEnabled(false);
         jPanel1.add(txtCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 460, 140, 30));
 
         btnCancelar.setBackground(new java.awt.Color(243, 69, 51));
         btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnCancelar.setText("CANCELAR");
         btnCancelar.setBorder(null);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 130, 30));
 
         btnAceptar.setBackground(new java.awt.Color(118, 194, 124));
@@ -150,6 +171,11 @@ public class FmRealizarVenta extends FmBase {
         btnAceptar.setText("ACEPTAR");
         btnAceptar.setBorder(null);
         btnAceptar.setBorderPainted(false);
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 440, 130, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 970, 540));
@@ -255,17 +281,104 @@ public class FmRealizarVenta extends FmBase {
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        
+
     }//GEN-LAST:event_btnProductosActionPerformed
 
-    public void cargarTabla(){
-       
-        productos = negocios.obtenerProductos();
-        
-        
-        
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()))) {
+            JOptionPane.showMessageDialog(rootPane, "La venta se ha realizado con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "La cantidad recibida no es suficiente.");
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        negocios.nuevaVenta();
+        limpiaDatos();
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtRecibidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRecibidoKeyReleased
+        if (!txtRecibido.getText().isEmpty()) {
+            double cambio = negocios.obtenerCambio(Double.parseDouble(txtRecibido.getText()));
+            if (cambio >= 0) {
+                txtCambio.setText(String.format("%.2f", cambio));
+                return;
+            }
+        }
+        txtCambio.setText("");
+    }//GEN-LAST:event_txtRecibidoKeyReleased
+
+    private void tbDetalleVentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetalleVentaKeyReleased
+
+        int tecla = evt.getKeyCode();
+        if (tecla == KeyEvent.VK_ENTER
+                || tecla == KeyEvent.VK_UP
+                || tecla == KeyEvent.VK_DOWN
+                || tecla == KeyEvent.VK_LEFT
+                || tecla == KeyEvent.VK_RIGHT) {
+
+            Producto producto = new Producto();
+            int row = tbDetalleVenta.getSelectedRow();
+            int column = tbDetalleVenta.getSelectedColumn();
+            int cantidad=0;
+            try {
+                cantidad = Integer.valueOf(modeloTabla.getValueAt(row, column).toString());
+                if(cantidad<1){
+                    actualizaTabla();
+                    JOptionPane.showMessageDialog(rootPane, "La cantidad debe ser mayor que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                producto.setId(Integer.valueOf(modeloTabla.getValueAt(row, 0).toString()));
+            } catch (Exception e) {
+                return;
+            }
+            if (negocios.editarDetalleVenta(producto, cantidad)) {
+                actualizaTabla();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No hay la cantidad suficiente.", "Error", JOptionPane.ERROR_MESSAGE);
+                actualizaTabla();
+            }
+        }
+
+    }//GEN-LAST:event_tbDetalleVentaKeyReleased
+
+    private void actualizaTabla() {
+        List<DetalleVenta> lstDetalleVenta = negocios.obtenerDetallesVenta();
+
         modeloTabla.setRowCount(0);
-        for (Producto producto: productos) {
+
+        for (DetalleVenta detalle : lstDetalleVenta) {
+            Producto producto = detalle.getProducto();
+            Object[] fila = new Object[5];
+            fila[0] = producto.getId();
+            fila[1] = producto.getNombre();
+            fila[2] = producto.getPrecio();
+            fila[3] = detalle.getCantidad();
+            fila[4] = detalle.getImporte();
+            modeloTabla.addRow(fila);
+        }
+
+        txtTotal.setText(String.format("%.2f", negocios.obtenerTotalVenta()));
+
+    }
+
+    private void limpiaDatos() {
+
+        modeloTabla.setRowCount(0);
+
+        txtBuscar.setText("");
+        txtRecibido.setText("0.0");
+        txtCambio.setText("0.0");
+        txtTotal.setText("0.0");
+    }
+
+    private void cargarTabla() {
+
+        //productos = negocios.obtenerProductos();
+        modeloTabla.setRowCount(0);
+        agregaProductosAVenta();
+        /*for (Producto producto: productos) {
             
             double importe = (producto.getPrecio() * producto.getStock());
             
@@ -276,7 +389,37 @@ public class FmRealizarVenta extends FmBase {
             fila[3] = producto.getStock();
             fila[4] = importe;
             modeloTabla.addRow(fila);
+        }*/
+    }
+
+    /**
+     * Este método es una simulación
+     */
+    private void agregaProductosAVenta() {
+
+        List<Producto> productos = negocios.obtenerProductos();
+
+        negocios.nuevaVenta();
+
+        negocios.agregarProductoCarrito(productos.get(0), 3);
+        negocios.agregarProductoCarrito(productos.get(0), 1);
+        negocios.agregarProductoCarrito(productos.get(0), 1);
+        negocios.agregarProductoCarrito(productos.get(1), 1);
+
+        List<DetalleVenta> detalles = negocios.obtenerDetallesVenta();
+
+        for (DetalleVenta detalle : detalles) {
+            Producto producto = detalle.getProducto();
+            Object[] fila = new Object[5];
+            fila[0] = producto.getId();
+            fila[1] = producto.getNombre();
+            fila[2] = producto.getPrecio();
+            fila[3] = detalle.getCantidad();
+            fila[4] = detalle.getImporte();
+            modeloTabla.addRow(fila);
         }
+
+        txtTotal.setText(String.format("%.2f", negocios.obtenerTotalVenta()));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,8 +456,8 @@ public class FmRealizarVenta extends FmBase {
         this.setTitle("Dulcería La Abue | Realizar Venta");
         this.setLocationRelativeTo(null);
         modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
-        negocios=getFachadaNegocios();
+        negocios = getFachadaNegocios();
         cargarTabla();
-        
+
     }
 }

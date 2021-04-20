@@ -1,14 +1,16 @@
 package sistemanenka_presentacion;
 
 import com.sun.glass.events.KeyEvent;
-import control.FabricaNegocios;
 import control.INegocios;
 import dominio.DetalleVenta;
 import dominio.Producto;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import javafx.scene.input.KeyCode;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.JTableButtonRenderer;
 
 /**
  *
@@ -98,17 +100,17 @@ public class FmRealizarVenta extends FmBase {
         tbDetalleVenta.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         tbDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "CODIGO", "PRODUCTO", "PRECIO", "CANTIDAD", "IMPORTE"
+                "CODIGO", "PRODUCTO", "PRECIO", "CANTIDAD", "IMPORTE", "ELIMINAR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -116,12 +118,20 @@ public class FmRealizarVenta extends FmBase {
             }
         });
         tbDetalleVenta.setDoubleBuffered(true);
+        tbDetalleVenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDetalleVentaMouseClicked(evt);
+            }
+        });
         tbDetalleVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tbDetalleVentaKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tbDetalleVenta);
+        if (tbDetalleVenta.getColumnModel().getColumnCount() > 0) {
+            tbDetalleVenta.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 840, 260));
 
@@ -321,10 +331,10 @@ public class FmRealizarVenta extends FmBase {
             Producto producto = new Producto();
             int row = tbDetalleVenta.getSelectedRow();
             int column = tbDetalleVenta.getSelectedColumn();
-            int cantidad=0;
+            int cantidad = 0;
             try {
                 cantidad = Integer.valueOf(modeloTabla.getValueAt(row, column).toString());
-                if(cantidad<1){
+                if (cantidad < 1) {
                     actualizaTabla();
                     JOptionPane.showMessageDialog(rootPane, "La cantidad debe ser mayor que 0.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -343,6 +353,19 @@ public class FmRealizarVenta extends FmBase {
 
     }//GEN-LAST:event_tbDetalleVentaKeyReleased
 
+    private void tbDetalleVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDetalleVentaMouseClicked
+
+        int column = tbDetalleVenta.getSelectedColumn();
+
+        if (column == 5) {
+            int row = tbDetalleVenta.getSelectedRow();
+
+            int id = (int) tbDetalleVenta.getValueAt(row, 0);
+            double cantidad = (double) tbDetalleVenta.getValueAt(row, 3);
+            eliminarProductoCarrito(id, cantidad);
+        }
+    }//GEN-LAST:event_tbDetalleVentaMouseClicked
+
     private void actualizaTabla() {
         List<DetalleVenta> lstDetalleVenta = negocios.obtenerDetallesVenta();
 
@@ -350,12 +373,15 @@ public class FmRealizarVenta extends FmBase {
 
         for (DetalleVenta detalle : lstDetalleVenta) {
             Producto producto = detalle.getProducto();
-            Object[] fila = new Object[5];
+            JButton btnEliminar = new JButton();
+            btnEliminar.setText("ELIMINAR");
+            Object[] fila = new Object[6];
             fila[0] = producto.getId();
             fila[1] = producto.getNombre();
             fila[2] = producto.getPrecio();
             fila[3] = detalle.getCantidad();
             fila[4] = detalle.getImporte();
+            fila[5] = btnEliminar;
             modeloTabla.addRow(fila);
         }
 
@@ -402,24 +428,38 @@ public class FmRealizarVenta extends FmBase {
         negocios.nuevaVenta();
 
         negocios.agregarProductoCarrito(productos.get(0), 3);
-        negocios.agregarProductoCarrito(productos.get(0), 1);
-        negocios.agregarProductoCarrito(productos.get(0), 1);
+        // negocios.agregarProductoCarrito(productos.get(0), 1);
+        // negocios.agregarProductoCarrito(productos.get(0), 1);
         negocios.agregarProductoCarrito(productos.get(1), 1);
 
         List<DetalleVenta> detalles = negocios.obtenerDetallesVenta();
 
         for (DetalleVenta detalle : detalles) {
             Producto producto = detalle.getProducto();
-            Object[] fila = new Object[5];
+            JButton btnEliminar = new JButton();
+            btnEliminar.setText("ELIMINAR");
+            Object[] fila = new Object[6];
             fila[0] = producto.getId();
             fila[1] = producto.getNombre();
             fila[2] = producto.getPrecio();
             fila[3] = detalle.getCantidad();
             fila[4] = detalle.getImporte();
+            fila[5] = btnEliminar;
             modeloTabla.addRow(fila);
         }
 
         txtTotal.setText(String.format("%.2f", negocios.obtenerTotalVenta()));
+    }
+
+    private void eliminarProductoCarrito(int idProducto, double cantidad) {
+        Producto producto = new Producto();
+        producto.setId(idProducto);
+        if (tbDetalleVenta.getRowCount() == 1) {
+            btnCancelarActionPerformed(null);
+        } else {
+            negocios.eliminarProductoCarrito(producto, cantidad);
+            actualizaTabla();
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -455,6 +495,7 @@ public class FmRealizarVenta extends FmBase {
     private void inicializar() {
         this.setTitle("Dulcería La Abue | Realizar Venta");
         this.setLocationRelativeTo(null);
+        tbDetalleVenta.getColumn("ELIMINAR").setCellRenderer(new JTableButtonRenderer());
         modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
         negocios = getFachadaNegocios();
         cargarTabla();

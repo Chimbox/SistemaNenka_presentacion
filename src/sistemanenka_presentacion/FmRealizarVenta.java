@@ -43,7 +43,7 @@ public class FmRealizarVenta extends FmBase {
         lblCliente = new javax.swing.JLabel();
         txtAtiende = new javax.swing.JTextField();
         cbCliente = new javax.swing.JComboBox<>();
-        lblBuscar = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbDetalleVenta = new javax.swing.JTable();
@@ -83,6 +83,7 @@ public class FmRealizarVenta extends FmBase {
         lblCliente.setText("Cliente:");
         jPanel1.add(lblCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 67, -1, 20));
 
+        txtAtiende.setEditable(false);
         txtAtiende.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtAtiende, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 240, 30));
 
@@ -90,8 +91,13 @@ public class FmRealizarVenta extends FmBase {
         cbCliente.setBorder(null);
         jPanel1.add(cbCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 240, 30));
 
-        lblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
-        jPanel1.add(lblBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 40, 30, 30));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
+        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 40, 30, 30));
 
         txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 290, 30));
@@ -127,6 +133,9 @@ public class FmRealizarVenta extends FmBase {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tbDetalleVentaKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tbDetalleVentaKeyTyped(evt);
+            }
         });
         jScrollPane1.setViewportView(tbDetalleVenta);
         if (tbDetalleVenta.getColumnModel().getColumnCount() > 0) {
@@ -156,6 +165,9 @@ public class FmRealizarVenta extends FmBase {
         txtRecibido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtRecibidoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRecibidoKeyTyped(evt);
             }
         });
         jPanel1.add(txtRecibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 410, 140, 30));
@@ -295,17 +307,27 @@ public class FmRealizarVenta extends FmBase {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()))) {
-            JOptionPane.showMessageDialog(rootPane, "La venta se ha realizado con éxito.");
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "La cantidad recibida no es suficiente.");
+        if (!txtRecibido.getText().isEmpty()) {
+            if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()))) {
+                JOptionPane.showMessageDialog(rootPane, "La venta se ha realizado con éxito.");
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "La cantidad recibida no es suficiente.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "No se puede realizar la venta porque hay campos vacíos.");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        negocios.nuevaVenta();
-        limpiaDatos();
+        int opcion = JOptionPane.showConfirmDialog(rootPane,
+                "¿Está seguro que desea cancelar la venta?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
 
+        if (opcion == 0) {
+            negocios.nuevaVenta();
+            limpiaDatos();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtRecibidoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRecibidoKeyReleased
@@ -315,8 +337,8 @@ public class FmRealizarVenta extends FmBase {
                 txtCambio.setText(String.format("%.2f", cambio));
                 return;
             }
+            txtCambio.setText(String.format("Falta: %.2f", Math.abs(cambio)));
         }
-        txtCambio.setText("");
     }//GEN-LAST:event_txtRecibidoKeyReleased
 
     private void tbDetalleVentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetalleVentaKeyReleased
@@ -335,8 +357,10 @@ public class FmRealizarVenta extends FmBase {
             try {
                 cantidad = Integer.valueOf(modeloTabla.getValueAt(row, column).toString());
                 if (cantidad < 1) {
-                    actualizaTabla();
+                    /*actualizaTabla();
                     JOptionPane.showMessageDialog(rootPane, "La cantidad debe ser mayor que 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                     */
+                    eliminarProductoCarrito((int) modeloTabla.getValueAt(row, 0), 0);
                     return;
                 }
                 producto.setId(Integer.valueOf(modeloTabla.getValueAt(row, 0).toString()));
@@ -365,6 +389,40 @@ public class FmRealizarVenta extends FmBase {
             eliminarProductoCarrito(id, cantidad);
         }
     }//GEN-LAST:event_tbDetalleVentaMouseClicked
+
+    private void txtRecibidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRecibidoKeyTyped
+        //[0-9]+(\.[0-9][0-9]?)?
+        String texto = txtRecibido.getText() + evt.getKeyChar();
+        if (texto.equals(".")) {
+            evt.consume();
+            return;
+        }
+        if (txtRecibido.getText().contains(".")) {
+            if (!texto.matches("^[0-9]+([.][0-9]+)?$")) {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_txtRecibidoKeyTyped
+
+    private void tbDetalleVentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetalleVentaKeyTyped
+        String texto = txtRecibido.getText() + evt.getKeyChar();
+        if (texto.equals(".")) {
+            evt.consume();
+            return;
+        }
+        if (txtRecibido.getText().contains(".")) {
+            if (!texto.matches("^[0-9]+([.][0-9]+)?$")) {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_tbDetalleVentaKeyTyped
+
+    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
+        List<Producto> productos = negocios.buscarProducto(txtBuscar.getText());
+        for (Producto producto : productos) {
+            System.out.println(producto.getNombre());
+        }
+    }//GEN-LAST:event_btnBuscarMouseClicked
 
     private void actualizaTabla() {
         List<DetalleVenta> lstDetalleVenta = negocios.obtenerDetallesVenta();
@@ -452,19 +510,30 @@ public class FmRealizarVenta extends FmBase {
     }
 
     private void eliminarProductoCarrito(int idProducto, double cantidad) {
-        Producto producto = new Producto();
-        producto.setId(idProducto);
-        if (tbDetalleVenta.getRowCount() == 1) {
-            btnCancelarActionPerformed(null);
-        } else {
-            negocios.eliminarProductoCarrito(producto, cantidad);
-            actualizaTabla();
+        int opcion = JOptionPane.showConfirmDialog(rootPane,
+                "¿Está seguro que desea retirar este producto del carrito?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+
+        if (opcion == 0) {
+            Producto producto = new Producto();
+            producto.setId(idProducto);
+            if (tbDetalleVenta.getRowCount() == 1) {
+                btnCancelarActionPerformed(null);
+            } else if (cantidad == 0) {
+                negocios.eliminarProductoCarrito(producto);
+            } else {
+                negocios.eliminarProductoCarrito(producto, cantidad);
+            }
         }
+
+        actualizaTabla();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAdministrador;
+    private javax.swing.JLabel btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnComprar;
     private javax.swing.JButton btnCorte;
@@ -479,7 +548,6 @@ public class FmRealizarVenta extends FmBase {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAtiende;
-    private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblCambio;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblRecibido;

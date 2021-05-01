@@ -7,10 +7,17 @@ import dominio.Producto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javafx.scene.input.KeyCode;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.ListModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import models.JTableButtonRenderer;
+import models.PreviaProductoRenderer;
 
 /**
  *
@@ -55,6 +62,9 @@ public class FmRealizarVenta extends FmBase {
         txtCambio = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
+        pnlPrevia = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstPrevia = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
         btnProductos = new javax.swing.JButton();
         btnVentas = new javax.swing.JButton();
@@ -100,6 +110,11 @@ public class FmRealizarVenta extends FmBase {
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 40, 30, 30));
 
         txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+        });
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 290, 30));
 
         tbDetalleVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
@@ -142,7 +157,7 @@ public class FmRealizarVenta extends FmBase {
             tbDetalleVenta.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 840, 260));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 840, 260));
 
         lblTotal.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         lblTotal.setText("Total $:");
@@ -186,7 +201,7 @@ public class FmRealizarVenta extends FmBase {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 130, 30));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 500, 90, 30));
 
         btnAceptar.setBackground(new java.awt.Color(118, 194, 124));
         btnAceptar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -198,7 +213,33 @@ public class FmRealizarVenta extends FmBase {
                 btnAceptarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 440, 130, 30));
+        jPanel1.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 440, 150, 50));
+
+        lstPrevia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstPrevia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstPreviaMouseClicked(evt);
+            }
+        });
+        lstPrevia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                lstPreviaKeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(lstPrevia);
+
+        javax.swing.GroupLayout pnlPreviaLayout = new javax.swing.GroupLayout(pnlPrevia);
+        pnlPrevia.setLayout(pnlPreviaLayout);
+        pnlPreviaLayout.setHorizontalGroup(
+            pnlPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+        );
+        pnlPreviaLayout.setVerticalGroup(
+            pnlPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(pnlPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 290, 60));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 970, 540));
 
@@ -313,7 +354,7 @@ public class FmRealizarVenta extends FmBase {
             } else {
                 JOptionPane.showMessageDialog(rootPane, "La cantidad recibida no es suficiente.");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(rootPane, "No se puede realizar la venta porque hay campos vacíos.");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
@@ -418,11 +459,81 @@ public class FmRealizarVenta extends FmBase {
     }//GEN-LAST:event_tbDetalleVentaKeyTyped
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-        List<Producto> productos = negocios.buscarProducto(txtBuscar.getText());
-        for (Producto producto : productos) {
-            System.out.println(producto.getNombre());
-        }
+        buscarProductos();
     }//GEN-LAST:event_btnBuscarMouseClicked
+
+    private void buscarProductos() {
+        List<Producto> productos = negocios.buscarProducto(txtBuscar.getText());
+        if (productos.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "No se encontró ningún producto en esta búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            crearListaPreviaProductos(productos);
+        }
+    }
+
+    private void lstPreviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstPreviaMouseClicked
+
+        if (evt.getClickCount() == 2) {
+            int i = lstPrevia.locationToIndex(evt.getPoint());
+
+            Producto producto = lstPrevia.getModel().getElementAt(i);
+
+            agregaProductoBuscado(producto);
+        }
+    }//GEN-LAST:event_lstPreviaMouseClicked
+
+    private void lstPreviaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lstPreviaKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int i = lstPrevia.getSelectedIndex();
+            Producto producto = lstPrevia.getModel().getElementAt(i);
+            agregaProductoBuscado(producto);
+        }
+    }//GEN-LAST:event_lstPreviaKeyReleased
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            buscarProductos();
+        }
+    }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void agregaProductoBuscado(Producto producto) {
+        SpinnerNumberModel sModel = new SpinnerNumberModel(1.0, 0.0, 99.0, 1.0);
+        JSpinner spinner = new JSpinner(sModel);
+        int opcion = JOptionPane.showOptionDialog(null, spinner, "Indique la cantidad:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if (opcion == JOptionPane.OK_OPTION) {
+            double cantidad = (double) spinner.getValue();
+            if (cantidad > 0) {
+                if (negocios.agregarProductoCarrito(producto, cantidad)) {
+                    txtBuscar.setText("");
+                    pnlPrevia.setVisible(false);
+                    actualizaTabla();
+                    txtBuscar.requestFocus();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "No hay la cantidad suficiente.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    private void crearListaPreviaProductos(List<Producto> productos) {
+        if (!productos.isEmpty()) {
+            DefaultListModel<Producto> modelo = new DefaultListModel<>();
+
+            for (Producto producto : productos) {
+                modelo.addElement(producto);
+            }
+
+            lstPrevia.setModel(modelo);
+
+            lstPrevia.setCellRenderer(new PreviaProductoRenderer());
+            //  JList<Producto> lstPreviaProductos=new JList<>(modelo);
+            // lstPreviaProductos.setSize(200,200);
+            // spnlPrevia.add(lstPreviaProductos);
+            pnlPrevia.setVisible(true);
+        } else {
+            pnlPrevia.setVisible(false);
+        }
+    }
 
     private void actualizaTabla() {
         List<DetalleVenta> lstDetalleVenta = negocios.obtenerDetallesVenta();
@@ -547,11 +658,14 @@ public class FmRealizarVenta extends FmBase {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAtiende;
     private javax.swing.JLabel lblCambio;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblRecibido;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JList<Producto> lstPrevia;
+    private javax.swing.JPanel pnlPrevia;
     private javax.swing.JTable tbDetalleVenta;
     private javax.swing.JTextField txtAtiende;
     private javax.swing.JTextField txtBuscar;
@@ -567,6 +681,6 @@ public class FmRealizarVenta extends FmBase {
         modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
         negocios = getFachadaNegocios();
         cargarTabla();
-
+        pnlPrevia.setVisible(false);
     }
 }

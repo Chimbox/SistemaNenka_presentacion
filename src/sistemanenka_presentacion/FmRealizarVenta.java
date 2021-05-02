@@ -2,12 +2,14 @@ package sistemanenka_presentacion;
 
 import com.sun.glass.events.KeyEvent;
 import control.INegocios;
+import dominio.Cliente;
 import dominio.DetalleVenta;
 import dominio.Producto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javafx.scene.input.KeyCode;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -557,6 +559,13 @@ public class FmRealizarVenta extends FmBase {
         txtTotal.setText(String.format("%.2f", negocios.obtenerTotalVenta()));
 
     }
+    
+    private void llenarCBoxClientes(){
+        List<Cliente> clientes = negocios.obtenerClientes();
+        Cliente[] arrayClientes = clientes.toArray(new Cliente[0]);
+
+        cbCliente.setModel(new DefaultComboBoxModel(arrayClientes));
+    }
 
     private void limpiaDatos() {
 
@@ -681,6 +690,7 @@ public class FmRealizarVenta extends FmBase {
         modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
         negocios = getFachadaNegocios();
         cargarTabla();
+        llenarCBoxClientes();
         pnlPrevia.setVisible(false);
     }
 }

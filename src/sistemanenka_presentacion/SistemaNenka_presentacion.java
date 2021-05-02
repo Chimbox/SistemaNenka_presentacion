@@ -11,7 +11,7 @@ public class SistemaNenka_presentacion {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        FmRealizarVenta fm=new FmRealizarVenta();
+        FrmInicioSesion fm=new FrmInicioSesion();
         fm.setVisible(true);
     }
     

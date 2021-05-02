@@ -4,18 +4,14 @@ import com.sun.glass.events.KeyEvent;
 import control.INegocios;
 import dominio.Cliente;
 import dominio.DetalleVenta;
+import dominio.Empleado;
 import dominio.Producto;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
-import javafx.scene.input.KeyCode;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.ListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import models.JTableButtonRenderer;
@@ -29,13 +25,14 @@ public class FmRealizarVenta extends FmBase {
 
     DefaultTableModel modeloTabla;
     INegocios negocios;
+    Empleado empleado;
 
     /**
      * Creates new form FmRealizarVenta
      */
-    public FmRealizarVenta() {
+    public FmRealizarVenta(Empleado empleado) {
         initComponents();
-        inicializar();
+        inicializar(empleado);
     }
 
     /**
@@ -566,6 +563,10 @@ public class FmRealizarVenta extends FmBase {
 
         cbCliente.setModel(new DefaultComboBoxModel(arrayClientes));
     }
+    
+    private void cargarEmpleado(Empleado empleado){
+        this.txtAtiende.setText(empleado.getNombre());
+    }
 
     private void limpiaDatos() {
 
@@ -683,14 +684,16 @@ public class FmRealizarVenta extends FmBase {
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
-    private void inicializar() {
+    private void inicializar(Empleado empleado) {
         this.setTitle("Dulcería La Abue | Realizar Venta");
         this.setLocationRelativeTo(null);
+        this.empleado = empleado;
         tbDetalleVenta.getColumn("ELIMINAR").setCellRenderer(new JTableButtonRenderer());
         modeloTabla = (DefaultTableModel) tbDetalleVenta.getModel();
         negocios = getFachadaNegocios();
         cargarTabla();
         llenarCBoxClientes();
+        cargarEmpleado(empleado);
         pnlPrevia.setVisible(false);
     }
 }

@@ -343,7 +343,14 @@ public class FmRealizarVenta extends FmBase {
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+      
+        if (cambiarVentana() == 0) {
 
+            negocios.nuevaVenta();
+            FmProductos fProductos = new FmProductos();
+            fProductos.setVisible(true);
+            dispose();
+        }
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -556,15 +563,15 @@ public class FmRealizarVenta extends FmBase {
         txtTotal.setText(String.format("%.2f", negocios.obtenerTotalVenta()));
 
     }
-    
-    private void llenarCBoxClientes(){
+
+    private void llenarCBoxClientes() {
         List<Cliente> clientes = negocios.obtenerClientes();
         Cliente[] arrayClientes = clientes.toArray(new Cliente[0]);
 
         cbCliente.setModel(new DefaultComboBoxModel(arrayClientes));
     }
-    
-    private void cargarEmpleado(Empleado empleado){
+
+    private void cargarEmpleado(Empleado empleado) {
         this.txtAtiende.setText(empleado.getNombre());
     }
 
@@ -649,6 +656,14 @@ public class FmRealizarVenta extends FmBase {
         }
 
         actualizaTabla();
+    }
+    
+    private int cambiarVentana(){
+        return JOptionPane.showConfirmDialog(rootPane,
+                "¿Está seguro que desea salir y cancelar la venta?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

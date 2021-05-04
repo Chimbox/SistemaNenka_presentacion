@@ -6,6 +6,7 @@ import dominio.Cliente;
 import dominio.DetalleVenta;
 import dominio.Empleado;
 import dominio.Producto;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -138,17 +139,21 @@ public class FmRealizarVenta extends FmBase {
             }
         });
         tbDetalleVenta.setDoubleBuffered(true);
+        tbDetalleVenta.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         tbDetalleVenta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbDetalleVentaMouseClicked(evt);
             }
         });
         tbDetalleVenta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tbDetalleVentaKeyReleased(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tbDetalleVentaKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbDetalleVentaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tbDetalleVentaKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tbDetalleVenta);
@@ -470,15 +475,17 @@ public class FmRealizarVenta extends FmBase {
 
     private void buscarProductos() {
         List<Producto> productos = negocios.buscarProducto(txtBuscar.getText());
-        if (productos.isEmpty()) {
+        List <Producto> productos1 = negocios.buscarProductoCategoria(txtBuscar.getText());
+        if (productos.isEmpty() && productos1.isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "No se encontró ningún producto en esta búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
+        } else if (!productos1.isEmpty()){
+            crearListaPreviaProductos(productos1);
+        }else{
             crearListaPreviaProductos(productos);
         }
     }
 
     private void lstPreviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstPreviaMouseClicked
-
         if (evt.getClickCount() == 2) {
             int i = lstPrevia.locationToIndex(evt.getPoint());
 
@@ -501,6 +508,22 @@ public class FmRealizarVenta extends FmBase {
             buscarProductos();
         }
     }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void tbDetalleVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetalleVentaKeyPressed
+        if (KeyEvent.VK_DELETE == evt.getKeyCode()) {
+            ArrayList<Integer> productos = new ArrayList<>();
+            int[] seleccionados = tbDetalleVenta.getSelectedRows();
+            for (int i = 0; i < seleccionados.length; i++) {
+                System.out.println(tbDetalleVenta.getModel().getValueAt(seleccionados[i], 0));
+                int dd = (int)tbDetalleVenta.getModel().getValueAt(seleccionados[i], 0);
+                productos.add(dd);
+        }
+            for (Integer producto : productos) {
+                eliminarProductoCarrito(producto, 1);
+            }
+
+        }
+    }//GEN-LAST:event_tbDetalleVentaKeyPressed
 
     private void agregaProductoBuscado(Producto producto) {
         SpinnerNumberModel sModel = new SpinnerNumberModel(1.0, 0.0, 99.0, 1.0);
@@ -613,10 +636,10 @@ public class FmRealizarVenta extends FmBase {
 
         negocios.nuevaVenta();
 
-        negocios.agregarProductoCarrito(productos.get(0), 3);
+        //negocios.agregarProductoCarrito(productos.get(0), 3);
         // negocios.agregarProductoCarrito(productos.get(0), 1);
         // negocios.agregarProductoCarrito(productos.get(0), 1);
-        negocios.agregarProductoCarrito(productos.get(1), 1);
+        //negocios.agregarProductoCarrito(productos.get(1), 1);
 
         List<DetalleVenta> detalles = negocios.obtenerDetallesVenta();
 

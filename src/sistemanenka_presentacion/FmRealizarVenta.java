@@ -73,6 +73,7 @@ public class FmRealizarVenta extends FmBase {
         jPanel3 = new javax.swing.JPanel();
         btnAdministrador = new javax.swing.JButton();
         btnVenta = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -328,6 +329,11 @@ public class FmRealizarVenta extends FmBase {
         btnVenta.setPreferredSize(new java.awt.Dimension(134, 101));
         btnVenta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jPanel3.add(btnVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 140, 90));
+
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Venta");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 520, 70));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 970, 110));
 
@@ -701,6 +707,7 @@ public class FmRealizarVenta extends FmBase {
     private javax.swing.JButton btnVentas;
     private javax.swing.JComboBox<String> cbCliente;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -66,6 +66,7 @@ public class FmAdministrarProductos extends FmBase {
         jPanel3 = new javax.swing.JPanel();
         btnAdministrador = new javax.swing.JButton();
         btnVenta = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -290,6 +291,11 @@ public class FmAdministrarProductos extends FmBase {
         btnVenta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jPanel3.add(btnVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 140, 90));
 
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Productos");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 250, 70));
+
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 970, 110));
 
         jPanel4.setBackground(new java.awt.Color(47, 111, 159));
@@ -466,6 +472,7 @@ public class FmAdministrarProductos extends FmBase {
     private javax.swing.JButton btnVentas;
     private javax.swing.JComboBox<String> cbCategorias;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

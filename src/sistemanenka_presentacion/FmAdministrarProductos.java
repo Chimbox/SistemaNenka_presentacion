@@ -58,11 +58,6 @@ public class FmAdministrarProductos extends FmBase {
         pnlPrevia = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstPrevia = new javax.swing.JList<>();
-        jPanel2 = new javax.swing.JPanel();
-        btnProductos = new javax.swing.JButton();
-        btnVentas = new javax.swing.JButton();
-        btnComprar = new javax.swing.JButton();
-        btnCorte = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnAdministrador = new javax.swing.JButton();
         btnVenta = new javax.swing.JButton();
@@ -79,13 +74,13 @@ public class FmAdministrarProductos extends FmBase {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblCategoria.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        lblCategoria.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
         lblCategoria.setText("Categoria:");
-        jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 67, 100, 20));
+        jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 100, 20));
 
         cbCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbCategorias.setBorder(null);
-        jPanel1.add(cbCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 210, 30));
+        jPanel1.add(cbCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 210, 30));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
         btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -93,7 +88,7 @@ public class FmAdministrarProductos extends FmBase {
                 btnBuscarMouseClicked(evt);
             }
         });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 30, 30));
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 40, 30, 30));
 
         txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +101,7 @@ public class FmAdministrarProductos extends FmBase {
                 txtBuscarKeyReleased(evt);
             }
         });
-        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 250, 30));
+        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 250, 30));
 
         tbDetalleProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         tbDetalleProductos.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
@@ -152,7 +147,7 @@ public class FmAdministrarProductos extends FmBase {
             tbDetalleProductos.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 650, 260));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 750, 290));
 
         btnCancelar.setBackground(new java.awt.Color(243, 69, 51));
         btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -163,7 +158,7 @@ public class FmAdministrarProductos extends FmBase {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 130, 40));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 440, 130, 40));
 
         btnAñadirProducto.setBackground(new java.awt.Color(118, 194, 124));
         btnAñadirProducto.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -175,7 +170,7 @@ public class FmAdministrarProductos extends FmBase {
                 btnAñadirProductoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 450, 210, 40));
+        jPanel1.add(btnAñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, 170, 40));
 
         lstPrevia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstPrevia.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -205,60 +200,9 @@ public class FmAdministrarProductos extends FmBase {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(pnlPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, 250, 60));
+        jPanel1.add(pnlPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, 250, 60));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 740, 510));
-
-        jPanel2.setBackground(new java.awt.Color(47, 118, 176));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnProductos.setBackground(new java.awt.Color(47, 118, 176));
-        btnProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dulce.png"))); // NOI18N
-        btnProductos.setText("Productos");
-        btnProductos.setBorder(null);
-        btnProductos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnProductos.setMaximumSize(new java.awt.Dimension(95, 100));
-        btnProductos.setMinimumSize(new java.awt.Dimension(95, 100));
-        btnProductos.setPreferredSize(new java.awt.Dimension(95, 100));
-        btnProductos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProductosActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
-
-        btnVentas.setBackground(new java.awt.Color(47, 118, 176));
-        btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/proyecto-de-ley.png"))); // NOI18N
-        btnVentas.setText("Ventas");
-        btnVentas.setBorder(null);
-        btnVentas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnVentas.setMaximumSize(new java.awt.Dimension(95, 100));
-        btnVentas.setMinimumSize(new java.awt.Dimension(95, 100));
-        btnVentas.setPreferredSize(new java.awt.Dimension(95, 100));
-        btnVentas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel2.add(btnVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, 89));
-
-        btnComprar.setBackground(new java.awt.Color(47, 118, 176));
-        btnComprar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pagar.png"))); // NOI18N
-        btnComprar.setText("Comprar");
-        btnComprar.setBorder(null);
-        btnComprar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnComprar.setMaximumSize(new java.awt.Dimension(95, 100));
-        btnComprar.setMinimumSize(new java.awt.Dimension(95, 100));
-        btnComprar.setPreferredSize(new java.awt.Dimension(95, 100));
-        btnComprar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel2.add(btnComprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 266, -1, 90));
-
-        btnCorte.setBackground(new java.awt.Color(47, 118, 176));
-        btnCorte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cajero-automatico.png"))); // NOI18N
-        btnCorte.setText("Corte Caja");
-        btnCorte.setBorder(null);
-        btnCorte.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCorte.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel2.add(btnCorte, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 90, -1));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 150, 540));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 520));
 
         jPanel3.setBackground(new java.awt.Color(47, 118, 176));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -296,7 +240,7 @@ public class FmAdministrarProductos extends FmBase {
         jLabel2.setText("Productos");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 250, 70));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 970, 110));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 750, 110));
 
         jPanel4.setBackground(new java.awt.Color(47, 111, 159));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -313,10 +257,6 @@ public class FmAdministrarProductos extends FmBase {
     private void btnAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministradorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAdministradorActionPerformed
-
-    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-     
-    }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnAñadirProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProductoActionPerformed
       
@@ -465,16 +405,11 @@ public class FmAdministrarProductos extends FmBase {
     private javax.swing.JButton btnAñadirProducto;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnComprar;
-    private javax.swing.JButton btnCorte;
-    private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnVenta;
-    private javax.swing.JButton btnVentas;
     private javax.swing.JComboBox<String> cbCategorias;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;

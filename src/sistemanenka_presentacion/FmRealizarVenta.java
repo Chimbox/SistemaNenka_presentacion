@@ -166,12 +166,12 @@ public class FmRealizarVenta extends FmBase {
 
         lblTotal.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         lblTotal.setText("Total $:");
-        jPanel1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 450, -1, 30));
+        jPanel1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 440, -1, 30));
 
         txtTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         txtTotal.setDisabledTextColor(new java.awt.Color(255, 51, 51));
         txtTotal.setEnabled(false);
-        jPanel1.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 444, 140, 40));
+        jPanel1.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 430, 140, 40));
 
         lblRecibido.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         lblRecibido.setText("Recibido:");
@@ -206,7 +206,7 @@ public class FmRealizarVenta extends FmBase {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 500, 90, 30));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 490, 90, 30));
 
         btnAceptar.setBackground(new java.awt.Color(118, 194, 124));
         btnAceptar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N

@@ -113,7 +113,7 @@ public class FmAdministrarProductos extends FmBase {
                 {null, null, null, null, null}
             },
             new String [] {
-                "CODIGO", "NOMBRE", "PRECIO", "STOCK", "ELIMINAR"
+                "CODIGO", "NOMBRE", "PRECIO", "STOCK", "EDITAR"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -378,14 +378,14 @@ public class FmAdministrarProductos extends FmBase {
         negocios.nuevaVenta();
 
         for (Producto producto : productos) {
-            JButton btnEliminar = new JButton();
-            btnEliminar.setText("ELIMINAR");
+            JButton btnEditar = new JButton();
+            btnEditar.setText("EDITAR");
             Object[] fila = new Object[5];
             fila[0] = producto.getId();
             fila[1] = producto.getNombre();
             fila[2] = producto.getPrecio();
             fila[3] = producto.getStock();
-            fila[4] = btnEliminar;
+            fila[4] = btnEditar;
             modeloTabla.addRow(fila);
         }
     }

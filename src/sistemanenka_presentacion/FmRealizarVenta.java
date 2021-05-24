@@ -276,6 +276,11 @@ public class FmRealizarVenta extends FmBase {
         btnVentas.setMinimumSize(new java.awt.Dimension(95, 100));
         btnVentas.setPreferredSize(new java.awt.Dimension(95, 100));
         btnVentas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentasActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, 89));
 
         btnComprar.setBackground(new java.awt.Color(47, 118, 176));
@@ -530,6 +535,12 @@ public class FmRealizarVenta extends FmBase {
 
         }
     }//GEN-LAST:event_tbDetalleVentaKeyPressed
+
+    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
+        FrGenerarReportesVentas frmReporteVentas = new FrGenerarReportesVentas();
+        frmReporteVentas.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVentasActionPerformed
 
     private void agregaProductoBuscado(Producto producto) {
         SpinnerNumberModel sModel = new SpinnerNumberModel(1.0, 0.0, 99.0, 1.0);

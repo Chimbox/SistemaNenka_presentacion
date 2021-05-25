@@ -371,7 +371,7 @@ public class FmRealizarVenta extends FmBase {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (!txtRecibido.getText().isEmpty()) {
-            if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()))) {
+            if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()), null, empleado)) {
                 JOptionPane.showMessageDialog(rootPane, "La venta se ha realizado con éxito.");
                 limpiaDatos();
             } else {

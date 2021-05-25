@@ -148,8 +148,8 @@ public class FrmInicioSesion extends FmBase {
             Empleado empleado = negocios.iniciarSesion(txtUsuario.getText(), txtContrasenia.getText());
             
             if(empleado != null){
-                FmRealizarVenta realizarVaenta = new FmRealizarVenta(empleado);
-                realizarVaenta.setVisible(true);
+                FmRealizarVenta realizarVenta = new FmRealizarVenta(empleado);
+                realizarVenta.setVisible(true);
                 dispose();
             } else {
                 limpiarCampos();

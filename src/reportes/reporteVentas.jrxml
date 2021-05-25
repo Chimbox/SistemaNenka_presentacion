@@ -3,8 +3,20 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="fechaInicio" class="java.sql.Time">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.sql.Time">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaI" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaF" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT id_producto, nombre, cantidad, importe FROM detalles_ventas INNER JOIN (SELECT nombre FROM productos)]]>
+		<![CDATA[SELECT d.id_producto, p.nombre, SUM(d.cantidad) as cantidad, SUM(d.importe) as importe FROM detalles_ventas d, ventas v  INNER JOIN productos p ON p.id=d.id_producto WHERE v.id=d.id_venta AND v.fecha BETWEEN $P{fechaI} AND $P{fechaF} GROUP BY d.id_producto]]>
 	</queryString>
 	<field name="id_producto" class="java.lang.Object"/>
 	<field name="nombre" class="java.lang.Object"/>

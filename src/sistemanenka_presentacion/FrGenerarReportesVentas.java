@@ -205,7 +205,7 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private boolean generarReporte() {
-        return negocios.generarReporteVenta();
+        return negocios.generarReporteVenta(dcFechaInicio.getDate(), dcFechaFin.getDate());
     }
 
     private void inicializar() {

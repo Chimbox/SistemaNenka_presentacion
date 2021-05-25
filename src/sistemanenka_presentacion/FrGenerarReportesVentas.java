@@ -7,6 +7,7 @@ package sistemanenka_presentacion;
 
 import control.FabricaNegocios;
 import control.INegocios;
+import dominio.Empleado;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,13 +17,15 @@ import javax.swing.JOptionPane;
 public class FrGenerarReportesVentas extends javax.swing.JFrame {
 
     INegocios negocios;
+    
+    Empleado empleado;
 
     /**
      * Creates new form FrGenerarReportesVentas
      */
-    public FrGenerarReportesVentas() {
+    public FrGenerarReportesVentas(Empleado empleado) {
         initComponents();
-
+        this.empleado = empleado;
         grupoBotones.add(rbtnSemana);
         grupoBotones.add(rbtnMes);
         grupoBotones.add(rbtnRangoFechas);
@@ -101,6 +104,11 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
         btnVenta.setMinimumSize(new java.awt.Dimension(134, 101));
         btnVenta.setPreferredSize(new java.awt.Dimension(134, 101));
         btnVenta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentaActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 140, 90));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 36)); // NOI18N
@@ -177,15 +185,24 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        FrmInicioSesion fm=new FrmInicioSesion();
+        fm.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
+        
         if (!generarReporte()) {
             JOptionPane.showMessageDialog(rootPane, "Un error ha ocurrido.");
         }
 
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
+
+    private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
+        FmRealizarVenta realizarventa = new FmRealizarVenta(empleado);
+        realizarventa.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnVentaActionPerformed
 
     private boolean generarReporte() {
         return negocios.generarReporteVenta();

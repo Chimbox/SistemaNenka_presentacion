@@ -373,6 +373,7 @@ public class FmRealizarVenta extends FmBase {
         if (!txtRecibido.getText().isEmpty()) {
             if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()))) {
                 JOptionPane.showMessageDialog(rootPane, "La venta se ha realizado con éxito.");
+                limpiaDatos();
             } else {
                 JOptionPane.showMessageDialog(rootPane, "La cantidad recibida no es suficiente.");
             }
@@ -537,7 +538,7 @@ public class FmRealizarVenta extends FmBase {
     }//GEN-LAST:event_tbDetalleVentaKeyPressed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        FrGenerarReportesVentas frmReporteVentas = new FrGenerarReportesVentas();
+        FrGenerarReportesVentas frmReporteVentas = new FrGenerarReportesVentas(empleado);
         frmReporteVentas.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVentasActionPerformed

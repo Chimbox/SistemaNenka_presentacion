@@ -6,6 +6,7 @@ import dominio.Cliente;
 import dominio.DetalleVenta;
 import dominio.Empleado;
 import dominio.Producto;
+import enums.Rol;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -74,11 +75,11 @@ public class FmRealizarVenta extends FmBase {
         btnAdministrador = new javax.swing.JButton();
         btnVenta = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        btnAdministrador1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1115, 650));
         setMinimumSize(new java.awt.Dimension(1115, 650));
         setSize(new java.awt.Dimension(1115, 650));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -147,14 +148,14 @@ public class FmRealizarVenta extends FmBase {
             }
         });
         tbDetalleVenta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tbDetalleVentaKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tbDetalleVentaKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tbDetalleVentaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tbDetalleVentaKeyTyped(evt);
             }
         });
         jScrollPane1.setViewportView(tbDetalleVenta);
@@ -308,9 +309,9 @@ public class FmRealizarVenta extends FmBase {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAdministrador.setBackground(new java.awt.Color(47, 118, 176));
-        btnAdministrador.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        btnAdministrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/administracion.png"))); // NOI18N
-        btnAdministrador.setText("Administrador");
+        btnAdministrador.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        btnAdministrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cerrar-sesion (2).png"))); // NOI18N
+        btnAdministrador.setText("Cerrar Sesion");
         btnAdministrador.setBorder(null);
         btnAdministrador.setBorderPainted(false);
         btnAdministrador.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -320,7 +321,7 @@ public class FmRealizarVenta extends FmBase {
                 btnAdministradorActionPerformed(evt);
             }
         });
-        jPanel3.add(btnAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 140, 90));
+        jPanel3.add(btnAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 20, 110, 70));
 
         btnVenta.setBackground(new java.awt.Color(47, 118, 176));
         btnVenta.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -340,6 +341,21 @@ public class FmRealizarVenta extends FmBase {
         jLabel2.setText("Venta");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 520, 70));
 
+        btnAdministrador1.setBackground(new java.awt.Color(47, 118, 176));
+        btnAdministrador1.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        btnAdministrador1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/administracion.png"))); // NOI18N
+        btnAdministrador1.setText("Administrador");
+        btnAdministrador1.setBorder(null);
+        btnAdministrador1.setBorderPainted(false);
+        btnAdministrador1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdministrador1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdministrador1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrador1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnAdministrador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 140, 90));
+
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 970, 110));
 
         jPanel4.setBackground(new java.awt.Color(47, 111, 159));
@@ -355,23 +371,29 @@ public class FmRealizarVenta extends FmBase {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministradorActionPerformed
-        // TODO add your handling code here:
+        FrmInicioSesion fm = new FrmInicioSesion();
+        fm.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-      
-        if (cambiarVentana() == 0) {
 
-            negocios.nuevaVenta();
-            FmProductos fProductos = new FmProductos();
-            fProductos.setVisible(true);
-            dispose();
+        if (cambiarVentana() == 0) {
+            if (validarPuesto()) {
+                negocios.nuevaVenta();
+                FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
+                fProductos.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Solo los gerentes tienen acceso para administrar los productos", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (!txtRecibido.getText().isEmpty()) {
-            if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()), null, empleado)) {
+            if (negocios.completarVenta(Double.parseDouble(txtRecibido.getText()), (Cliente) cbCliente.getSelectedItem(), empleado)) {
                 JOptionPane.showMessageDialog(rootPane, "La venta se ha realizado con éxito.");
                 limpiaDatos();
             } else {
@@ -487,12 +509,12 @@ public class FmRealizarVenta extends FmBase {
 
     private void buscarProductos() {
         List<Producto> productos = negocios.buscarProducto(txtBuscar.getText());
-        List <Producto> productos1 = negocios.buscarProductoCategoria(txtBuscar.getText());
+        List<Producto> productos1 = negocios.buscarProductoCategoria(txtBuscar.getText());
         if (productos.isEmpty() && productos1.isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "No se encontró ningún producto en esta búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!productos1.isEmpty()){
+        } else if (!productos1.isEmpty()) {
             crearListaPreviaProductos(productos1);
-        }else{
+        } else {
             crearListaPreviaProductos(productos);
         }
     }
@@ -527,9 +549,9 @@ public class FmRealizarVenta extends FmBase {
             int[] seleccionados = tbDetalleVenta.getSelectedRows();
             for (int i = 0; i < seleccionados.length; i++) {
                 System.out.println(tbDetalleVenta.getModel().getValueAt(seleccionados[i], 0));
-                int dd = (int)tbDetalleVenta.getModel().getValueAt(seleccionados[i], 0);
+                int dd = (int) tbDetalleVenta.getModel().getValueAt(seleccionados[i], 0);
                 productos.add(dd);
-        }
+            }
             for (Integer producto : productos) {
                 eliminarProductoCarrito(producto, 1);
             }
@@ -538,10 +560,23 @@ public class FmRealizarVenta extends FmBase {
     }//GEN-LAST:event_tbDetalleVentaKeyPressed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        FrGenerarReportesVentas frmReporteVentas = new FrGenerarReportesVentas(empleado);
-        frmReporteVentas.setVisible(true);
-        dispose();
+
+        if (cambiarVentana() == 0) {
+            if (validarPuesto()) {
+                negocios.nuevaVenta();
+                FrGenerarReportesVentas frmReporteVentas = new FrGenerarReportesVentas(empleado);
+                frmReporteVentas.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Solo los gerentes tienen acceso para administrar los productos", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
     }//GEN-LAST:event_btnVentasActionPerformed
+
+    private void btnAdministrador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrador1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdministrador1ActionPerformed
 
     private void agregaProductoBuscado(Producto producto) {
         SpinnerNumberModel sModel = new SpinnerNumberModel(1.0, 0.0, 99.0, 1.0);
@@ -580,6 +615,13 @@ public class FmRealizarVenta extends FmBase {
         } else {
             pnlPrevia.setVisible(false);
         }
+    }
+
+    public boolean validarPuesto() {
+        if (empleado.getPuesto().getRol() == Rol.GERENTE) {
+            return true;
+        }
+        return false;
     }
 
     private void actualizaTabla() {
@@ -658,7 +700,6 @@ public class FmRealizarVenta extends FmBase {
         // negocios.agregarProductoCarrito(productos.get(0), 1);
         // negocios.agregarProductoCarrito(productos.get(0), 1);
         //negocios.agregarProductoCarrito(productos.get(1), 1);
-
         List<DetalleVenta> detalles = negocios.obtenerDetallesVenta();
 
         for (DetalleVenta detalle : detalles) {
@@ -698,18 +739,19 @@ public class FmRealizarVenta extends FmBase {
 
         actualizaTabla();
     }
-    
-    private int cambiarVentana(){
+
+    private int cambiarVentana() {
         return JOptionPane.showConfirmDialog(rootPane,
                 "¿Está seguro que desea salir y cancelar la venta?",
                 "Confirmar",
                 JOptionPane.YES_NO_OPTION);
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAdministrador;
+    private javax.swing.JButton btnAdministrador1;
     private javax.swing.JLabel btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnComprar;

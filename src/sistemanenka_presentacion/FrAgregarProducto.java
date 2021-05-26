@@ -5,17 +5,38 @@
  */
 package sistemanenka_presentacion;
 
+import control.INegocios;
+import dominio.Categoria;
+import dominio.Cliente;
+import dominio.Empleado;
+import dominio.Producto;
+import dominio.Proveedor;
+import enums.Rol;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import models.JTableButtonRenderer;
+
 /**
  *
  * @author dianacastro
  */
-public class FrAgregarProducto extends javax.swing.JFrame {
+public class FrAgregarProducto extends FmBase {
+
+    Empleado empleado;
+    INegocios negocios;
+    Producto producto;
 
     /**
      * Creates new form FrAgregarProducto
      */
-    public FrAgregarProducto() {
+    public FrAgregarProducto(Empleado empleado, Producto p) {
         initComponents();
+
+        this.empleado = empleado;
+        this.producto = p;
+        inicializar();
     }
 
     /**
@@ -124,7 +145,7 @@ public class FrAgregarProducto extends javax.swing.JFrame {
 
         btnAñadirProducto.setBackground(new java.awt.Color(118, 194, 124));
         btnAñadirProducto.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
-        btnAñadirProducto.setText("AÑADIR PRODUCTO");
+        btnAñadirProducto.setText("GUARDAR");
         btnAñadirProducto.setBorder(null);
         btnAñadirProducto.setBorderPainted(false);
         btnAñadirProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -148,6 +169,11 @@ public class FrAgregarProducto extends javax.swing.JFrame {
         jPanel1.add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 170, 70, 30));
 
         txtCodigo.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 170, 210, 30));
 
         lblStock.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
@@ -163,12 +189,22 @@ public class FrAgregarProducto extends javax.swing.JFrame {
         jPanel1.add(lblPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 290, 70, 30));
 
         txtStock.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtStockKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, 210, 30));
 
         txtNombre.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 210, 30));
 
         txtPrecio.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 210, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 770, 510));
@@ -181,46 +217,102 @@ public class FrAgregarProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-
+        FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
+            fProductos.setVisible(true);
+            dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAñadirProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProductoActionPerformed
 
+        if(validarCamposLlenos()){
+            
+            int opcion = JOptionPane.showConfirmDialog(rootPane,
+                "¿Está seguro que desea guardar los cambios?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+            
+            if(opcion == 0){
+                negocios.guardarProducto((Categoria)cbCategorias.getSelectedItem(), 
+                    (Proveedor)cbProveedores.getSelectedItem(), txtNombre.getText(), 
+                    Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText())
+                    , Integer.parseInt(txtCodigo.getText()));
+            }
+            
+            
+            
+        }
     }//GEN-LAST:event_btnAñadirProductoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrAgregarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrAgregarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrAgregarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrAgregarProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        char caracter = evt.getKeyChar();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrAgregarProducto().setVisible(true);
-            }
-        });
+        // Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0')
+                || (caracter > '9'))
+                && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        char caracter = evt.getKeyChar();
+
+        // Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0')
+                || (caracter > '9'))
+                && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockKeyTyped
+        char caracter = evt.getKeyChar();
+
+        // Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0')
+                || (caracter > '9'))
+                && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtStockKeyTyped
+
+    private void llenarCombobox() {
+        List<Categoria> categorias = negocios.obtenerCategorias();
+        Categoria[] arrayCategorias = categorias.toArray(new Categoria[0]);
+
+        cbCategorias.setModel(new DefaultComboBoxModel(arrayCategorias));
+
+        List<Proveedor> proveedores = negocios.obtenerProveedores();
+        Proveedor[] arrayProveedores = proveedores.toArray(new Proveedor[0]);
+
+        cbProveedores.setModel(new DefaultComboBoxModel(arrayProveedores));
+    }
+
+    private void inicializar() {
+        negocios = getFachadaNegocios();
+        this.setTitle("Dulcería La Abue | Administrar producto");
+        this.setLocationRelativeTo(null);
+        llenarCombobox();
+        if(producto != null){
+            cbCategorias.setSelectedItem(producto.getCategoria());
+            cbProveedores.setSelectedItem(producto.getProveedor());
+            cbProveedores.setEnabled(false);
+            txtNombre.setText(producto.getNombre());
+            txtPrecio.setText(Float.toString(producto.getPrecio()));
+            txtStock.setText(Double.toString(producto.getStock()));
+            txtStock.setEditable(false);
+            txtCodigo.setText(producto.getCodigo()+"");
+        }
+
+    }
+    
+    private boolean validarCamposLlenos(){
+        if(txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty()
+                || txtPrecio.getText().isEmpty() || txtStock.getText().isEmpty()){
+            return false;
+        }
+        
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -34,7 +34,8 @@ public class FmAdministrarProductos extends FmBase {
      */
     public FmAdministrarProductos(Empleado empleado) {
         initComponents();
-        inicializar(empleado);
+        this.empleado = empleado;
+        inicializar();
     }
 
     /**
@@ -51,13 +52,13 @@ public class FmAdministrarProductos extends FmBase {
         cbCategorias = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbDetalleProductos = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
         btnAñadirProducto = new javax.swing.JButton();
         pnlPrevia = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstPrevia = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbProductos = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnAdministrador = new javax.swing.JButton();
         btnVenta = new javax.swing.JButton();
@@ -66,7 +67,6 @@ public class FmAdministrarProductos extends FmBase {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1115, 650));
         setMinimumSize(new java.awt.Dimension(1115, 650));
         setSize(new java.awt.Dimension(1115, 650));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -80,6 +80,16 @@ public class FmAdministrarProductos extends FmBase {
 
         cbCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbCategorias.setBorder(null);
+        cbCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbCategoriasMouseClicked(evt);
+            }
+        });
+        cbCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCategoriasActionPerformed(evt);
+            }
+        });
         jPanel1.add(cbCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 210, 30));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
@@ -88,7 +98,7 @@ public class FmAdministrarProductos extends FmBase {
                 btnBuscarMouseClicked(evt);
             }
         });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 40, 30, 30));
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 40, 50, 30));
 
         txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -102,52 +112,6 @@ public class FmAdministrarProductos extends FmBase {
             }
         });
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 250, 30));
-
-        tbDetalleProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
-        tbDetalleProductos.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        tbDetalleProductos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "CODIGO", "NOMBRE", "PRECIO", "STOCK", "EDITAR"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, true, true, true, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbDetalleProductos.setDoubleBuffered(true);
-        tbDetalleProductos.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        tbDetalleProductos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbDetalleProductosMouseClicked(evt);
-            }
-        });
-        tbDetalleProductos.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tbDetalleProductosKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tbDetalleProductosKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tbDetalleProductosKeyTyped(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbDetalleProductos);
-        if (tbDetalleProductos.getColumnModel().getColumnCount() > 0) {
-            tbDetalleProductos.getColumnModel().getColumn(5).setResizable(false);
-        }
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 750, 290));
 
         btnCancelar.setBackground(new java.awt.Color(243, 69, 51));
         btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -201,6 +165,31 @@ public class FmAdministrarProductos extends FmBase {
         );
 
         jPanel1.add(pnlPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, 250, 60));
+
+        tbProductos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "CODIGO", "NOMBRE", "PRECIO", "STOCK", "EDITAR"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbProductosMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tbProductos);
+
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 760, 240));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 520));
 
@@ -259,26 +248,16 @@ public class FmAdministrarProductos extends FmBase {
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
     private void btnAñadirProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProductoActionPerformed
-      
+        FrAgregarProducto fProductos = new FrAgregarProducto(empleado, null);
+        fProductos.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnAñadirProductoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       
+        FmRealizarVenta realizarVenta = new FmRealizarVenta(empleado);
+        realizarVenta.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void tbDetalleProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetalleProductosKeyReleased
-
-       
-
-    }//GEN-LAST:event_tbDetalleProductosKeyReleased
-
-    private void tbDetalleProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDetalleProductosMouseClicked
-
-    }//GEN-LAST:event_tbDetalleProductosMouseClicked
-
-    private void tbDetalleProductosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetalleProductosKeyTyped
-        
-    }//GEN-LAST:event_tbDetalleProductosKeyTyped
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         buscarProductos();
@@ -286,53 +265,109 @@ public class FmAdministrarProductos extends FmBase {
 
     private void buscarProductos() {
         List<Producto> productos = negocios.buscarProducto(txtBuscar.getText());
-        List <Producto> productos1 = negocios.buscarProductoCategoria(txtBuscar.getText());
+        List<Producto> productos1 = negocios.buscarProductoCategoria(txtBuscar.getText());
         if (productos.isEmpty() && productos1.isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "No se encontró ningún producto en esta búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else if (!productos1.isEmpty()){
+        } else if (!productos1.isEmpty()) {
             crearListaPreviaProductos(productos1);
-        }else{
+        } else {
             crearListaPreviaProductos(productos);
         }
     }
 
     private void lstPreviaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstPreviaMouseClicked
-        
+        int i = lstPrevia.getSelectedIndex();
+        Producto producto = lstPrevia.getModel().getElementAt(i);
+        agregaProductoBuscado(producto);
     }//GEN-LAST:event_lstPreviaMouseClicked
 
     private void lstPreviaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lstPreviaKeyReleased
-        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int i = lstPrevia.getSelectedIndex();
+            Producto producto = lstPrevia.getModel().getElementAt(i);
+            agregaProductoBuscado(producto);
+        }
     }//GEN-LAST:event_lstPreviaKeyReleased
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
-        
-    }//GEN-LAST:event_txtBuscarKeyReleased
 
-    private void tbDetalleProductosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDetalleProductosKeyPressed
-        
-    }//GEN-LAST:event_tbDetalleProductosKeyPressed
+    }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
 
-    private void agregaProductoBuscado(Producto producto) {
-        SpinnerNumberModel sModel = new SpinnerNumberModel(1.0, 0.0, 99.0, 1.0);
-        JSpinner spinner = new JSpinner(sModel);
-        int opcion = JOptionPane.showOptionDialog(null, spinner, "Indique la cantidad:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (opcion == JOptionPane.OK_OPTION) {
-            double cantidad = (double) spinner.getValue();
-            if (cantidad > 0) {
-                if (negocios.agregarProductoCarrito(producto, cantidad)) {
-                    txtBuscar.setText("");
-                    pnlPrevia.setVisible(false);
-                    agregaProductos();
-                    txtBuscar.requestFocus();
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "No hay la cantidad suficiente.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+    private void tbProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductosMouseClicked
+        int column = tbProductos.getSelectedColumn();
+
+        if (column == 4) {
+            int row = tbProductos.getSelectedRow();
+
+            int codigo = (int) tbProductos.getValueAt(row, 0);
+            modificarProducto(codigo);
+        }
+    }//GEN-LAST:event_tbProductosMouseClicked
+
+    private void cbCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbCategoriasMouseClicked
+//        Categoria c = (Categoria)cbCategorias.getSelectedItem();
+//        List<Producto> productos = negocios.buscarProductoCategoria(c.getNombre());
+//        modeloTabla.setRowCount(0);
+//        for (Producto producto : productos) {
+//            JButton btnEditar = new JButton();
+//            btnEditar.setText("EDITAR");
+//            Object[] fila = new Object[5];
+//            fila[0] = producto.getCodigo();
+//            fila[1] = producto.getNombre();
+//            fila[2] = producto.getPrecio();
+//            fila[3] = producto.getStock();
+//            fila[4] = btnEditar;
+//            modeloTabla.addRow(fila);
+//        }
+    }//GEN-LAST:event_cbCategoriasMouseClicked
+
+    private void cbCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCategoriasActionPerformed
+        Categoria c = (Categoria)cbCategorias.getSelectedItem();
+        List<Producto> productos = negocios.buscarProductoCategoria(c.getNombre());
+        modeloTabla.setRowCount(0);
+        for (Producto producto : productos) {
+            JButton btnEditar = new JButton();
+            btnEditar.setText("EDITAR");
+            Object[] fila = new Object[5];
+            fila[0] = producto.getCodigo();
+            fila[1] = producto.getNombre();
+            fila[2] = producto.getPrecio();
+            fila[3] = producto.getStock();
+            fila[4] = btnEditar;
+            modeloTabla.addRow(fila);
+        }
+    }//GEN-LAST:event_cbCategoriasActionPerformed
+
+    private void modificarProducto(int codigo) {
+        List<Producto> productos = negocios.obtenerProductos();
+        for (Producto producto : productos) {
+            if (producto.getCodigo() == codigo) {
+                FrAgregarProducto fProductos = new FrAgregarProducto(empleado, producto);
+                fProductos.setVisible(true);
+                dispose();
             }
         }
+    }
+
+    private void agregaProductoBuscado(Producto producto) {
+        modeloTabla.setRowCount(0);
+        txtBuscar.setText("");
+        pnlPrevia.setVisible(false);
+        JButton btnEditar = new JButton();
+        btnEditar.setText("EDITAR");
+        Object[] fila = new Object[5];
+        fila[0] = producto.getCodigo();
+        fila[1] = producto.getNombre();
+        fila[2] = producto.getPrecio();
+        fila[3] = producto.getStock();
+        fila[4] = btnEditar;
+        modeloTabla.addRow(fila);
+        txtBuscar.requestFocus();
+
     }
 
     private void crearListaPreviaProductos(List<Producto> productos) {
@@ -355,22 +390,20 @@ public class FmAdministrarProductos extends FmBase {
         }
     }
 
-    
+    private void llenarCombobox() {
 
-    private void llenarCBoxClientes() {
-        /*
         List<Categoria> categorias = negocios.obtenerCategorias();
         Categoria[] arrayCategorias = categorias.toArray(new Categoria[0]);
 
+        cbCategorias.setSelectedItem("Todas");
         cbCategorias.setModel(new DefaultComboBoxModel(arrayCategorias));
-        */
+
     }
 
     private void cargarTabla() {
         agregaProductos();
     }
 
-    
     private void agregaProductos() {
 
         List<Producto> productos = negocios.obtenerProductos();
@@ -381,7 +414,7 @@ public class FmAdministrarProductos extends FmBase {
             JButton btnEditar = new JButton();
             btnEditar.setText("EDITAR");
             Object[] fila = new Object[5];
-            fila[0] = producto.getId();
+            fila[0] = producto.getCodigo();
             fila[1] = producto.getNombre();
             fila[2] = producto.getPrecio();
             fila[3] = producto.getStock();
@@ -390,15 +423,6 @@ public class FmAdministrarProductos extends FmBase {
         }
     }
 
-    private void eliminarProducto(int idProducto, double cantidad) {
-        int opcion = JOptionPane.showConfirmDialog(rootPane,
-                "¿Está seguro que desea eliminar este producto de la base de datos?",
-                "Confirmar",
-                JOptionPane.YES_NO_OPTION);
-
-        
-    }
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdministrador;
@@ -412,24 +436,23 @@ public class FmAdministrarProductos extends FmBase {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblCategoria;
     private javax.swing.JList<Producto> lstPrevia;
     private javax.swing.JPanel pnlPrevia;
-    private javax.swing.JTable tbDetalleProductos;
+    private javax.swing.JTable tbProductos;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
-    private void inicializar(Empleado empleado) {
-        this.setTitle("Dulcería La Abue | Realizar Venta");
+    private void inicializar() {
+        this.setTitle("Dulcería La Abue | Administrar producto");
         this.setLocationRelativeTo(null);
-        this.empleado = empleado;
-        tbDetalleProductos.getColumn("ELIMINAR").setCellRenderer(new JTableButtonRenderer());
-        modeloTabla = (DefaultTableModel) tbDetalleProductos.getModel();
+        tbProductos.getColumn("EDITAR").setCellRenderer(new JTableButtonRenderer());
+        modeloTabla = (DefaultTableModel) tbProductos.getModel();
         negocios = getFachadaNegocios();
         cargarTabla();
-        llenarCBoxClientes();
+        llenarCombobox();
         pnlPrevia.setVisible(false);
     }
 }

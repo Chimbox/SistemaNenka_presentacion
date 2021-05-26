@@ -218,28 +218,42 @@ public class FrAgregarProducto extends FmBase {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
-            fProductos.setVisible(true);
-            dispose();
+        fProductos.setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAñadirProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirProductoActionPerformed
 
-        if(validarCamposLlenos()){
-            
+        if (validarCamposLlenos()) {
+
             int opcion = JOptionPane.showConfirmDialog(rootPane,
-                "¿Está seguro que desea guardar los cambios?",
-                "Confirmar",
-                JOptionPane.YES_NO_OPTION);
-            
-            if(opcion == 0){
-                negocios.guardarProducto((Categoria)cbCategorias.getSelectedItem(), 
-                    (Proveedor)cbProveedores.getSelectedItem(), txtNombre.getText(), 
-                    Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText())
-                    , Integer.parseInt(txtCodigo.getText()));
+                    "¿Está seguro que desea guardar los cambios?",
+                    "Confirmar",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (opcion == 0) {
+                if (producto == null) {
+                    negocios.guardarProducto((Categoria) cbCategorias.getSelectedItem(),
+                            (Proveedor) cbProveedores.getSelectedItem(), txtNombre.getText(),
+                            Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText()),
+                            Integer.parseInt(txtCodigo.getText()));
+
+                    FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
+                    fProductos.setVisible(true);
+                    dispose();
+                } else {
+                    negocios.modificarProducto((Categoria) cbCategorias.getSelectedItem(),
+                            (Proveedor) cbProveedores.getSelectedItem(), txtNombre.getText(),
+                            Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText()),
+                            Integer.parseInt(txtCodigo.getText()));
+                    
+                    FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
+                    fProductos.setVisible(true);
+                    dispose();
+                }
+
             }
-            
-            
-            
+
         }
     }//GEN-LAST:event_btnAñadirProductoActionPerformed
 
@@ -293,7 +307,7 @@ public class FrAgregarProducto extends FmBase {
         this.setTitle("Dulcería La Abue | Administrar producto");
         this.setLocationRelativeTo(null);
         llenarCombobox();
-        if(producto != null){
+        if (producto != null) {
             cbCategorias.setSelectedItem(producto.getCategoria());
             cbProveedores.setSelectedItem(producto.getProveedor());
             cbProveedores.setEnabled(false);
@@ -301,17 +315,17 @@ public class FrAgregarProducto extends FmBase {
             txtPrecio.setText(Float.toString(producto.getPrecio()));
             txtStock.setText(Double.toString(producto.getStock()));
             txtStock.setEditable(false);
-            txtCodigo.setText(producto.getCodigo()+"");
+            txtCodigo.setText(producto.getCodigo() + "");
         }
 
     }
-    
-    private boolean validarCamposLlenos(){
-        if(txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty()
-                || txtPrecio.getText().isEmpty() || txtStock.getText().isEmpty()){
+
+    private boolean validarCamposLlenos() {
+        if (txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty()
+                || txtPrecio.getText().isEmpty() || txtStock.getText().isEmpty()) {
             return false;
         }
-        
+
         return true;
     }
 

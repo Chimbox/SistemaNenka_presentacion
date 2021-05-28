@@ -226,34 +226,46 @@ public class FrAgregarProducto extends FmBase {
 
         if (validarCamposLlenos()) {
 
-            int opcion = JOptionPane.showConfirmDialog(rootPane,
-                    "¿Está seguro que desea guardar los cambios?",
-                    "Confirmar",
-                    JOptionPane.YES_NO_OPTION);
+            if (Float.parseFloat(txtStock.getText()) > 0.0) {
 
-            if (opcion == 0) {
-                if (producto == null) {
-                    negocios.guardarProducto((Categoria) cbCategorias.getSelectedItem(),
-                            (Proveedor) cbProveedores.getSelectedItem(), txtNombre.getText(),
-                            Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText()),
-                            Integer.parseInt(txtCodigo.getText()));
+                if (Float.parseFloat(txtPrecio.getText()) > 0.0) {
+                    int opcion = JOptionPane.showConfirmDialog(rootPane,
+                            "¿Está seguro que desea guardar los cambios?",
+                            "Confirmar",
+                            JOptionPane.YES_NO_OPTION);
 
-                    FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
-                    fProductos.setVisible(true);
-                    dispose();
+                    if (opcion == 0) {
+                        if (producto == null) {
+                            negocios.guardarProducto((Categoria) cbCategorias.getSelectedItem(),
+                                    (Proveedor) cbProveedores.getSelectedItem(), txtNombre.getText(),
+                                    Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText()),
+                                    Integer.parseInt(txtCodigo.getText()));
+
+                            FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
+                            fProductos.setVisible(true);
+                            dispose();
+                        } else {
+                            negocios.modificarProducto((Categoria) cbCategorias.getSelectedItem(),
+                                    (Proveedor) cbProveedores.getSelectedItem(), txtNombre.getText(),
+                                    Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText()),
+                                    Integer.parseInt(txtCodigo.getText()));
+
+                            FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
+                            fProductos.setVisible(true);
+                            dispose();
+                        }
+
+                    }
                 } else {
-                    negocios.modificarProducto((Categoria) cbCategorias.getSelectedItem(),
-                            (Proveedor) cbProveedores.getSelectedItem(), txtNombre.getText(),
-                            Float.parseFloat(txtPrecio.getText()), Float.parseFloat(txtStock.getText()),
-                            Integer.parseInt(txtCodigo.getText()));
-                    
-                    FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
-                    fProductos.setVisible(true);
-                    dispose();
+                    JOptionPane.showMessageDialog(rootPane, "El precio tiene que se mayor a 0", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "El stock tiene que se mayor a 0", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Los campos deben de estar llenos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAñadirProductoActionPerformed
 
@@ -271,22 +283,19 @@ public class FrAgregarProducto extends FmBase {
     private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
         char caracter = evt.getKeyChar();
 
-        // Verificar si la tecla pulsada no es un digito
-        if (((caracter < '0')
-                || (caracter > '9'))
-                && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
-            evt.consume();  // ignorar el evento de teclado
+        if ((caracter != '.')) {
+            if (((caracter > '9') || (caracter < '0') && (caracter != '\b'))) {
+                evt.consume();
+            }
         }
     }//GEN-LAST:event_txtPrecioKeyTyped
 
     private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockKeyTyped
         char caracter = evt.getKeyChar();
-
-        // Verificar si la tecla pulsada no es un digito
-        if (((caracter < '0')
-                || (caracter > '9'))
-                && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
-            evt.consume();  // ignorar el evento de teclado
+        if ((caracter != '.')) {
+            if (((caracter > '9') || (caracter < '0') && (caracter != '\b'))) {
+                evt.consume();
+            }
         }
     }//GEN-LAST:event_txtStockKeyTyped
 
@@ -311,13 +320,14 @@ public class FrAgregarProducto extends FmBase {
             cbCategorias.setSelectedItem(producto.getCategoria());
             cbProveedores.setSelectedItem(producto.getProveedor());
             cbProveedores.setEnabled(false);
+            cbCategorias.setEnabled(false);
             txtNombre.setText(producto.getNombre());
             txtPrecio.setText(Float.toString(producto.getPrecio()));
             txtStock.setText(Double.toString(producto.getStock()));
             txtStock.setEditable(false);
             txtCodigo.setText(producto.getCodigo() + "");
+            txtCodigo.setEditable(false);
         }
-
     }
 
     private boolean validarCamposLlenos() {

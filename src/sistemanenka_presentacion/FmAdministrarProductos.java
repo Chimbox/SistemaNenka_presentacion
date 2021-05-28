@@ -74,10 +74,11 @@ public class FmAdministrarProductos extends FmBase {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblCategoria.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
+        lblCategoria.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         lblCategoria.setText("Categoria:");
-        jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 100, 20));
+        jPanel1.add(lblCategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 100, 20));
 
+        cbCategorias.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         cbCategorias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbCategorias.setBorder(null);
         cbCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -90,7 +91,7 @@ public class FmAdministrarProductos extends FmBase {
                 cbCategoriasActionPerformed(evt);
             }
         });
-        jPanel1.add(cbCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 210, 30));
+        jPanel1.add(cbCategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 210, 40));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/lupa.png"))); // NOI18N
         btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -100,6 +101,7 @@ public class FmAdministrarProductos extends FmBase {
         });
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 40, 50, 30));
 
+        txtBuscar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         txtBuscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(47, 118, 176)));
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,7 +113,7 @@ public class FmAdministrarProductos extends FmBase {
                 txtBuscarKeyReleased(evt);
             }
         });
-        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 250, 30));
+        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, 250, 40));
 
         btnCancelar.setBackground(new java.awt.Color(243, 69, 51));
         btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
@@ -136,6 +138,7 @@ public class FmAdministrarProductos extends FmBase {
         });
         jPanel1.add(btnAñadirProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, 170, 40));
 
+        lstPrevia.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         lstPrevia.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstPrevia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -153,9 +156,7 @@ public class FmAdministrarProductos extends FmBase {
         pnlPrevia.setLayout(pnlPreviaLayout);
         pnlPreviaLayout.setHorizontalGroup(
             pnlPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPreviaLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
         );
         pnlPreviaLayout.setVerticalGroup(
             pnlPreviaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,6 +167,7 @@ public class FmAdministrarProductos extends FmBase {
 
         jPanel1.add(pnlPrevia, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, 250, 60));
 
+        tbProductos.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         tbProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -191,7 +193,7 @@ public class FmAdministrarProductos extends FmBase {
 
         jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 760, 240));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 520));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 870, 510));
 
         jPanel3.setBackground(new java.awt.Color(47, 118, 176));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -229,7 +231,7 @@ public class FmAdministrarProductos extends FmBase {
         jLabel2.setText("Productos");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 250, 70));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 750, 110));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 720, 110));
 
         jPanel4.setBackground(new java.awt.Color(47, 111, 159));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

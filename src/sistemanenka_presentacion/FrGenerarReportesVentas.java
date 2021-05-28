@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class FrGenerarReportesVentas extends javax.swing.JFrame {
 
     INegocios negocios;
-    
+
     Empleado empleado;
 
     /**
@@ -26,9 +26,6 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
     public FrGenerarReportesVentas(Empleado empleado) {
         initComponents();
         this.empleado = empleado;
-        grupoBotones.add(rbtnSemana);
-        grupoBotones.add(rbtnMes);
-        grupoBotones.add(rbtnRangoFechas);
 
         inicializar();
 
@@ -51,15 +48,10 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
         btnVenta = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        lblFiltrar = new javax.swing.JLabel();
-        cbFiltrar = new javax.swing.JComboBox<>();
         btnCancelar = new javax.swing.JButton();
         btnGenerarReporte = new javax.swing.JButton();
         lblFechaFin = new javax.swing.JLabel();
         lblFechaInicio = new javax.swing.JLabel();
-        rbtnSemana = new javax.swing.JRadioButton();
-        rbtnMes = new javax.swing.JRadioButton();
-        rbtnRangoFechas = new javax.swing.JRadioButton();
         dcFechaInicio = new com.toedter.calendar.JDateChooser();
         dcFechaFin = new com.toedter.calendar.JDateChooser();
 
@@ -121,17 +113,8 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblFiltrar.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
-        lblFiltrar.setText("Filtrar:");
-        jPanel1.add(lblFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 100, 30));
-
-        cbFiltrar.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        cbFiltrar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbFiltrar.setBorder(null);
-        jPanel1.add(cbFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 210, 30));
-
         btnCancelar.setBackground(new java.awt.Color(243, 69, 51));
-        btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        btnCancelar.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         btnCancelar.setText("CANCELAR");
         btnCancelar.setBorder(null);
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -139,10 +122,10 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, 130, 40));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 290, 200, 40));
 
         btnGenerarReporte.setBackground(new java.awt.Color(118, 194, 124));
-        btnGenerarReporte.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        btnGenerarReporte.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         btnGenerarReporte.setText("GENERAR REPORTE");
         btnGenerarReporte.setBorder(null);
         btnGenerarReporte.setBorderPainted(false);
@@ -151,31 +134,23 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
                 btnGenerarReporteActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGenerarReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 340, 170, 40));
+        jPanel1.add(btnGenerarReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 290, 270, 40));
 
-        lblFechaFin.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        lblFechaFin.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         lblFechaFin.setText("Fecha fin:");
-        jPanel1.add(lblFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, 90, 30));
+        jPanel1.add(lblFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 130, 40));
 
-        lblFechaInicio.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        lblFechaInicio.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
         lblFechaInicio.setText("Fecha inicio:");
-        jPanel1.add(lblFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, -1, 30));
+        jPanel1.add(lblFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, -1, 30));
 
-        rbtnSemana.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        rbtnSemana.setText("Semana pasada");
-        jPanel1.add(rbtnSemana, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, -1, -1));
+        dcFechaInicio.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(dcFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 80, 240, 30));
 
-        rbtnMes.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        rbtnMes.setText("Mes pasado");
-        jPanel1.add(rbtnMes, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, -1));
+        dcFechaFin.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jPanel1.add(dcFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, 240, 30));
 
-        rbtnRangoFechas.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        rbtnRangoFechas.setText("Rango de fechas");
-        jPanel1.add(rbtnRangoFechas, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 190, -1, -1));
-        jPanel1.add(dcFechaInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 240, 140, -1));
-        jPanel1.add(dcFechaFin, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 280, 141, -1));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 520));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 900, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -185,17 +160,20 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAdministradorActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        FrmInicioSesion fm=new FrmInicioSesion();
+        FrmInicioSesion fm = new FrmInicioSesion();
         fm.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
-        
-        if (!generarReporte()) {
-            JOptionPane.showMessageDialog(rootPane, "Un error ha ocurrido.");
-        }
 
+        if (dcFechaFin.getDate() != null && dcFechaInicio.getDate() != null) {
+            if (!generarReporte()) {
+                JOptionPane.showMessageDialog(rootPane, "Un error ha ocurrido.");
+            }
+        } else {
+                JOptionPane.showMessageDialog(rootPane, "Los campos deben de estar llenos", "Error", JOptionPane.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
@@ -219,7 +197,6 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGenerarReporte;
     private javax.swing.JButton btnVenta;
-    private javax.swing.JComboBox<String> cbFiltrar;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grupoBotones;
@@ -230,10 +207,6 @@ public class FrGenerarReportesVentas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblFechaFin;
     private javax.swing.JLabel lblFechaInicio;
-    private javax.swing.JLabel lblFiltrar;
-    private javax.swing.JRadioButton rbtnMes;
-    private javax.swing.JRadioButton rbtnRangoFechas;
-    private javax.swing.JRadioButton rbtnSemana;
     // End of variables declaration//GEN-END:variables
 
     protected INegocios getFachadaNegocios() {

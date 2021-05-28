@@ -378,17 +378,18 @@ public class FmRealizarVenta extends FmBase {
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
 
-        if (cambiarVentana() == 0) {
-            if (validarPuesto()) {
+        if (validarPuesto()) {
+            if (cambiarVentana() == 0) {
                 negocios.nuevaVenta();
                 FmAdministrarProductos fProductos = new FmAdministrarProductos(empleado);
                 fProductos.setVisible(true);
                 dispose();
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Solo los gerentes tienen acceso para administrar los productos", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Solo los gerentes tienen acceso para administrar los productos", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -561,16 +562,15 @@ public class FmRealizarVenta extends FmBase {
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
 
-        if (cambiarVentana() == 0) {
-            if (validarPuesto()) {
+        if (validarPuesto()) {
+            if (cambiarVentana() == 0) {
                 negocios.nuevaVenta();
                 FrGenerarReportesVentas frmReporteVentas = new FrGenerarReportesVentas(empleado);
                 frmReporteVentas.setVisible(true);
                 dispose();
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Solo los gerentes tienen acceso para administrar los productos", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Solo los gerentes tienen acceso para generar los reportes de ventas", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnVentasActionPerformed
 
